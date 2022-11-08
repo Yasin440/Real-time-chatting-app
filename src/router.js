@@ -1,13 +1,20 @@
-import { useRoute } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
 import Login from './components/Login';
 import Registration from './components/Registration';
 export default function Router() {
-    return useRoute([
+    return useRoutes([
         {
-            path: '/login', element: <Registration />
+            path: 'chat',
+            // element: '',
+            children: [
+                {
+                    path: 'registration', element: <Registration />
+                },
+                {
+                    path: 'login', element: <Login />
+                },
+            ]
         },
-        {
-            path: '/login', element: <Login />
-        },
+
     ])
 }
