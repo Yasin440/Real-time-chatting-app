@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import $ from 'jquery';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { registerNewUser } from '../store/actions/authAction';
 const Registration = () => {
-    // $(".btn").click(function () {
-    //     $("form").addClass("wrong-entry");
-    //     setTimeout(function () {
-    //         $("form").removeClass("wrong-entry");
-    //     }, 3000);
-    // });
+    const dispatch = useDispatch()
     const [isBlind, setIsBlind] = useState('');
     const [viewLoadedImg, setViewLoadedImg] = useState('');
     const [initial, setInitial] = useState({
@@ -44,7 +41,7 @@ const Registration = () => {
         Object.keys(initial).map(key =>
             data.append(key, initial[key])
         )
-        console.log(data);
+        dispatch(registerNewUser(data));
     }
     //handle panda eye rotation
     $(document).on("mousemove", function (event) {
@@ -57,6 +54,13 @@ const Registration = () => {
             height: y
         });
     });
+    //handle invalid data error
+    // $(".btn").click(function () {
+    //     $("form").addClass("wrong-entry");
+    //     setTimeout(function () {
+    //         $("form").removeClass("wrong-entry");
+    //     }, 3000);
+    // });
     return (
         <div className='register'>
             <div className="panda">
