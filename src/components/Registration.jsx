@@ -25,7 +25,7 @@ const Registration = () => {
         if (e.target.files.length !== 0) {
             setInitial({
                 ...initial,
-                [e.target.name]: e.target.value
+                [e.target.name]: e.target.files[0]
             })
         };
         const fileObject = new FileReader();
@@ -37,11 +37,18 @@ const Registration = () => {
     //handle registration
     const handleRegister = e => {
         e.preventDefault();
-        const data = new FormData();
-        Object.keys(initial).map(key =>
-            data.append(key, initial[key])
-        )
-        dispatch(registerNewUser(data));
+        const { userName, email, password, confirmPassword, image } = initial;
+        const formData = new FormData();
+        // Object.keys(initial).map(key =>
+        //     data.append(key, initial[key])
+        // )
+        formData.append('userName', userName);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('confirmPassword', confirmPassword);
+        formData.append('image', image);
+
+        dispatch(registerNewUser(formData));
     }
     //handle panda eye rotation
     $(document).on("mousemove", function (event) {
@@ -80,7 +87,11 @@ const Registration = () => {
                 <div className="body"> </div>
 
             </div>
-            <form className={isBlind} onSubmit={handleRegister}>
+            <form
+                className={isBlind}
+                onSubmit={handleRegister}
+                encType="multipart/form-data"
+            >
                 <div className="hand"></div>
                 <div className="hand rgt"></div>
                 <div className="foot">
@@ -118,11 +129,11 @@ const Registration = () => {
                         </div>
                         <div className="file">
                             <label htmlFor="profile_img">Select Profile</label>
-                            <input value={initial.image} onChange={handleFile} className='form-group' id='profile_img' type="file" name="image" />
+                            <input onChange={handleFile} className='form-group' id='profile_img' type="file" name="image" />
                         </div>
                     </div>
                 </div>
-                <button className="btn">Sign up </button>
+                <button className="btn" type="submit">Sign up </button>
                 <p className="alert">Invalid Credentials..!!</p>
                 <div className='toggleAuth'>
                     <span>Already have an Account?
