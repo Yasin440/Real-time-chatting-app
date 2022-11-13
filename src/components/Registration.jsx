@@ -37,16 +37,17 @@ const Registration = () => {
     //handle registration
     const handleRegister = e => {
         e.preventDefault();
-        const { userName, email, password, confirmPassword, image } = initial;
+        // const { userName, email, password, confirmPassword, image } = initial;
         const formData = new FormData();
-        // Object.keys(initial).map(key =>
-        //     data.append(key, initial[key])
-        // )
-        formData.append('userName', userName);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('confirmPassword', confirmPassword);
-        formData.append('image', image);
+        //append data into form data with map
+        Object.keys(initial).map(key =>
+            formData.append(key, initial[key])
+        )
+        // formData.append('userName', userName);
+        // formData.append('email', email);
+        // formData.append('password', password);
+        // formData.append('confirmPassword', confirmPassword);
+        // formData.append('image', image);
 
         dispatch(registerNewUser(formData));
     }

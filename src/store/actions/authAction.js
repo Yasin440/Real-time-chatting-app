@@ -4,13 +4,14 @@ export const registerNewUser = (data) => {
         const url = '/api/chat/register-user';
         const config = {
             headers: {
-                "Content-Type": "multipart/form-data"
+
             }
         }
         try {
             const response = await axios.post(url, data, config);
+            console.log("response", response);
         } catch (error) {
-            console.log(error);
+            console.log(error.response);
         }
     }
 }
