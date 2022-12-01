@@ -16,3 +16,15 @@ a {
 h1 {
     color: $primary;
 }
+
+.errorMessage {
+    color: black;
+    font-size: 14px;
+    background-color: rgba(255, 0, 0, .5);
+    padding: 2px 12px;
+    border-radius: 2rem;
+    font-weight: 400;
+    margin-top: 6px;
+    display: block;
+    width: fit-content;
+}

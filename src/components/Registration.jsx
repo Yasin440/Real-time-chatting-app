@@ -1,19 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerNewUser } from '../store/actions/authAction';
-const Registration = () => {
+import { useAlert } from 'react-alert';
+
+const Registration = ({ history }) => {
     const dispatch = useDispatch()
     const [isBlind, setIsBlind] = useState('');
     const [viewLoadedImg, setViewLoadedImg] = useState('');
-    const [initial, setInitial] = useState({
+    const initialInput = {
         userName: '',
         email: '',
         password: '',
         confirmPassword: '',
         image: ''
-    })
+    }
+    const [initial, setInitial] = useState(initialInput)
+    const alert = useAlert();
+    const { loading, authentication, success, error, myInfo } = useSelector(state => state.authReducer);
+    // const history=useHistore();
+
+    useEffect(() => {
+        if (success) {
+            alert.success(success);
+            setInitial(initialInput);
+        }
+        if (authentication) {
+            history.push('/');
+        }
+        if (error.message) {
+            alert.error(error.message);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [success, error])
+    console.log(myInfo);
     //handle inputValue
     const handleInput = e => {
         setInitial({
@@ -34,7 +55,7 @@ const Registration = () => {
         }
         fileObject.readAsDataURL(e.target.files[0]);
     }
-    //handle registration
+    // ===handle registration=== // 
     const handleRegister = e => {
         e.preventDefault();
         // const { userName, email, password, confirmPassword, image } = initial;
@@ -103,24 +124,58 @@ const Registration = () => {
                 </div>
                 <h1>Registration</h1>
                 <div className="form-group">
-                    <input value={initial.userName} onChange={handleInput} required="required" type="text" className="form-control" name="userName" />
+                    <input
+                        value={initial.userName}
+                        onChange={handleInput}
+                        // required="required"
+                        type="text"
+                        className="form-control"
+                        name="userName"
+                    />
                     <label className="form-label">Username</label>
+                    {error.userName && <span className='errorMessage'>{error.userName}</span>}
                 </div>
                 <div className="form-group">
-                    <input value={initial.email} onChange={handleInput} required="required" type="email" className="form-control" name="email" />
+                    <input
+                        value={initial.email}
+                        onChange={handleInput}
+                        // required="required"
+                        type="email"
+                        className="form-control"
+                        name="email"
+                    />
                     <label className="form-label">Email</label>
+                    {error.email && <span className='errorMessage'>{error.email}</span>}
                 </div>
                 <div className="form-group">
-                    <input value={initial.password} onChange={handleInput} id="password" type="password" required="required" className="form-control" name="password"
+                    <input
+                        value={initial.password}
+                        onChange={handleInput}
+                        id="password"
+                        type="password"
+                        // required="required"
+                        className="form-control"
+                        name="password"
                         onFocus={() => setIsBlind('up')}
-                        onBlur={() => setIsBlind('')} />
+                        onBlur={() => setIsBlind('')}
+                    />
                     <label className="form-label">Password</label>
+                    {error.password && <span className='errorMessage'>{error.password}</span>}
                 </div>
                 <div className="form-group">
-                    <input value={initial.confirmPassword} onChange={handleInput} id="confirmPassword" type="password" required="required" className="form-control" name="confirmPassword"
+                    <input
+                        value={initial.confirmPassword}
+                        onChange={handleInput}
+                        id="confirmPassword"
+                        type="password"
+                        // required="required"
+                        className="form-control"
+                        name="confirmPassword"
                         onFocus={() => setIsBlind('up')}
-                        onBlur={() => setIsBlind('')} />
+                        onBlur={() => setIsBlind('')}
+                    />
                     <label className="form-label">Confirm Password</label>
+                    {error.confirmPassword && <span className='errorMessage'>{error.confirmPassword}</span>}
                 </div>
                 <div className="form-group">
                     <div className="imgBox">
@@ -133,6 +188,7 @@ const Registration = () => {
                             <input onChange={handleFile} className='form-group' id='profile_img' type="file" name="image" />
                         </div>
                     </div>
+                    {error.image && <span className='errorMessage'>{error.image}</span>}
                 </div>
                 <button className="btn" type="submit">Sign up </button>
                 <p className="alert">Invalid Credentials..!!</p>

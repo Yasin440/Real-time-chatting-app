@@ -4,13 +4,23 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import store from './store/index';
+import store from './store/store';
+import { Provider as AlertProvider, positions, transitions } from 'react-alert';
+import AlertTemplate from 'react-alert-template-basic';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const options = {
+  timeout: 5000,
+  positions: positions.BOTTOM_CENTER,
+  transitions: transitions.SCALE
+}
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <AlertProvider template={AlertTemplate} {...options}>
+        <App />
+      </AlertProvider>
     </Provider>
   </React.StrictMode>
 );
