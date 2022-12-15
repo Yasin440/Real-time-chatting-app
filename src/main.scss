@@ -1,6 +1,12 @@
+@import './sass/layout/grid';
 @import './sass/abstracts/mixins';
 @import './sass/abstracts/variables';
 @import './sass/base/animation';
 @import './sass/base/base';
 @import './sass/base/typhography';
 @import './sass/components/auth';
+@import './sass/components/leftSide';
+@import './sass/components/rightSide';
+@import './sass/components/message';
+@import './sass/components/activeFriend';
+@import './sass/components/friends';

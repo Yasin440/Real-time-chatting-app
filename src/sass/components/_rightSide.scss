@@ -1,0 +1,40 @@
+.right-side {
+  .messaging {
+    border-right: 1ps solid $lightGray;
+
+    .messaging-header {
+      padding: 20px;
+
+      .top-user {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 5px;
+
+        .user {
+          display: flex;
+          align-items: center;
+
+          .imgBox {
+            cursor: pointer;
+          }
+
+          &-name {
+            font-weight: 600;
+            margin-left: 5px;
+          }
+        }
+
+        .icons {
+          display: flex;
+
+          li+li {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+
+
+}

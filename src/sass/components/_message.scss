@@ -1,0 +1,65 @@
+.message {
+  padding: 8px;
+
+  .time {
+    span {
+      font-size: 14px;
+      color: $colorGray;
+    }
+  }
+
+  &-my {
+    text-align: right;
+
+    .text {
+      p+p {
+        margin-top: 3px;
+      }
+
+      p {
+        background-color: $massageBG;
+        padding: 8px 18px;
+        border-radius: 18px;
+        color: $white;
+        width: fit-content;
+        max-width: 350px;
+        margin-left: auto;
+      }
+    }
+  }
+
+  &-friend {
+    text-align: left;
+    margin-top: 12px;
+
+    .text-area {
+      display: flex;
+      align-items: flex-end;
+
+      .imgBox {
+        margin-right: 2px;
+
+        .img {
+          width: 30px;
+          height: 30px;
+        }
+      }
+    }
+
+    .text {
+      p+p {
+        margin-top: 3px;
+      }
+
+      p {
+        background-color: $lightGray;
+        padding: 8px 18px;
+        border-radius: 18px;
+        color: $black;
+        width: fit-content;
+        max-width: 350px;
+        margin-right: auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+.friends {
+  margin-top: 8px;
+
+  .friend {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3rem;
+    transition: .3s all;
+    margin-bottom: 8px;
+
+
+    &:hover {
+      background-color: $lightGray;
+    }
+
+    .name {
+      margin-left: 8px;
+      text-transform: capitalize;
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+}

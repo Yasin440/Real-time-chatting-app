@@ -24,22 +24,22 @@ if (getMyInfo) {
         initial.loading = false
 
     }
+} else if (!getMyInfo) {
+    initial.myInfo = '';
+    initial.authenticate = false;
+    initial.loading = true
 }
 
 export const authReducer = (state = initial, action) => {
     const { payload, type } = action;
-    if (type === types.REGISTER_ERR) {
+    if (type === types.REGISTER_ERR || type === types.LOGIN_FAILED) {
         return {
-            ...initial,
-            loading: true,
-            authenticate: false,
-            myInfo: '',
+            ...state,
             error: payload.error
         }
     }
-    if (type === types.REGISTER_SUCCESS) {
+    if (type === types.REGISTER_SUCCESS || type === types.LOGIN_SUCCESS) {
         return {
-            ...initial,
             loading: false,
             authenticate: true,
             success: payload.success,
@@ -47,5 +47,12 @@ export const authReducer = (state = initial, action) => {
             error: ''
         }
     }
+    if (type === types.SUCCESS_MESSAGE_CLEAR) {
+        return {
+            ...state,
+            success: ''
+        }
+    }
+
     return state;
 }

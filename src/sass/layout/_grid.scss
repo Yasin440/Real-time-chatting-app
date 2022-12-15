@@ -1,0 +1,10 @@
+.row {
+  display: flex;
+  width: 100%;
+}
+
+@for $var from 1 to 12 {
+  .col-#{$var} {
+    width: 100%/12*$var;
+  }
+}

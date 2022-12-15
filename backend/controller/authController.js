@@ -36,7 +36,7 @@ module.exports.registerUser = (req, res) => {
             error = { ...error, password: 'password at lest 6 character' };
         }
         if (password && confirmPassword && password !== confirmPassword) {
-            error = { ...error, passwordMatch: 'mismatch password and confirmPassword' }
+            error = { ...error, message: 'mismatch password and confirmPassword' }
         }
         if (Object.keys(error).length > 0) {
             res.status(400).json({ error });
@@ -60,7 +60,7 @@ module.exports.registerUser = (req, res) => {
                                 userName,
                                 email,
                                 password: await bcrypt.hash(password, 10),
-                                image: oldImgName
+                                image: newImgName
                             })
                             if (createUser) {
                                 const { _id, email, userName, image, createdAt } = createUser;
@@ -72,7 +72,7 @@ module.exports.registerUser = (req, res) => {
                                 const option = {
                                     expires: new Date(Date.now() + process.env.COOKIE_EXP * 24 * 3600000)
                                 }
-                                res.status(201).cookie('authToken', token, option).json({ success: 'registration successful', token });
+                                res.status(200).cookie('authToken', token, option).json({ success: { message: 'Registration successful' }, token });
                             }
                         } else if (err) {
                             res.status(500).json({ error: { error: 'internal server error' } });
@@ -85,4 +85,45 @@ module.exports.registerUser = (req, res) => {
             }
         }
     })
+}
+module.exports.loginUser = async (req, res) => {
+    const { email, password } = req.body;
+    let error = {};
+    if (!email) {
+        error = { ...error, email: "Please provide an email" }
+    }
+    if (!password) {
+        error = { ...error, password: "Please provide an password" }
+    }
+    if (email && !validator.isEmail(email)) {
+        error = { ...error, email: "please provide a valid email" };
+    }
+    if (Object.keys(error).length > 0) {
+        res.status(400).json({ error });
+    } else if (Object.keys(error).length <= 0) {
+        try {
+            const findUser = await registerModal.findOne({ email }).select('+password');
+            if (findUser) {
+                const { _id, userName, email, image, createdAt } = findUser;
+                const matchPassword = bcrypt.compare(password, findUser.password);
+                if (matchPassword) {
+                    const token = jwt.sign(
+                        { id: _id, email, userName, image, createdAt },
+                        process.env.SECRET_JWT,
+                        { expiresIn: process.env.EXPIRE_JWT_IN }
+                    );
+                    const option = {
+                        expires: new Date(Date.now() + process.env.COOKIE_EXP * 24 * 3600000)
+                    };
+                    res.status(200).cookie('authToken', token, option).json({ success: { message: "Login successful" }, token });
+                } else if (!matchPassword) {
+                    res.status(400).json({ error: { message: 'Password not valid' } });
+                }
+            } else {
+                res.status(404).json({ error: { message: "User not found" } });
+            }
+        } catch (err) {
+            res.status(500).json({ error: { message: 'Internal server error' } });
+        }
+    }
 }

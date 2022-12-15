@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerNewUser } from '../store/actions/authAction';
 import { useAlert } from 'react-alert';
+import { SUCCESS_MESSAGE_CLEAR } from '../store/types/authTypes';
 
-const Registration = ({ history }) => {
+const Registration = () => {
     const dispatch = useDispatch()
     const [isBlind, setIsBlind] = useState('');
     const [viewLoadedImg, setViewLoadedImg] = useState('');
+    const navigate = useNavigate()
     const initialInput = {
         userName: '',
         email: '',
@@ -18,23 +20,25 @@ const Registration = ({ history }) => {
     }
     const [initial, setInitial] = useState(initialInput)
     const alert = useAlert();
-    const { loading, authentication, success, error, myInfo } = useSelector(state => state.authReducer);
-    // const history=useHistore();
+    const { authenticate, success, error } = useSelector(state => state.authReducer);
 
     useEffect(() => {
         if (success) {
-            alert.success(success);
+            alert.success(success.message);
+            //clear form
             setInitial(initialInput);
+
+            dispatch({ type: SUCCESS_MESSAGE_CLEAR })
         }
-        if (authentication) {
-            history.push('/');
-        }
-        if (error.message) {
+        if (error?.message) {
             alert.error(error.message);
         }
+        if (authenticate) {
+            navigate("/");
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [success, error])
-    console.log(myInfo);
+    }, [success, error, authenticate])
+
     //handle inputValue
     const handleInput = e => {
         setInitial({
@@ -133,7 +137,7 @@ const Registration = ({ history }) => {
                         name="userName"
                     />
                     <label className="form-label">Username</label>
-                    {error.userName && <span className='errorMessage'>{error.userName}</span>}
+                    {error?.userName && <span className='errorMessage'>{error.userName}</span>}
                 </div>
                 <div className="form-group">
                     <input
@@ -145,7 +149,7 @@ const Registration = ({ history }) => {
                         name="email"
                     />
                     <label className="form-label">Email</label>
-                    {error.email && <span className='errorMessage'>{error.email}</span>}
+                    {error?.email && <span className='errorMessage'>{error.email}</span>}
                 </div>
                 <div className="form-group">
                     <input
@@ -160,7 +164,7 @@ const Registration = ({ history }) => {
                         onBlur={() => setIsBlind('')}
                     />
                     <label className="form-label">Password</label>
-                    {error.password && <span className='errorMessage'>{error.password}</span>}
+                    {error?.password && <span className='errorMessage'>{error.password}</span>}
                 </div>
                 <div className="form-group">
                     <input
@@ -175,7 +179,7 @@ const Registration = ({ history }) => {
                         onBlur={() => setIsBlind('')}
                     />
                     <label className="form-label">Confirm Password</label>
-                    {error.confirmPassword && <span className='errorMessage'>{error.confirmPassword}</span>}
+                    {error?.confirmPassword && <span className='errorMessage'>{error.confirmPassword}</span>}
                 </div>
                 <div className="form-group">
                     <div className="imgBox">
@@ -188,13 +192,13 @@ const Registration = ({ history }) => {
                             <input onChange={handleFile} className='form-group' id='profile_img' type="file" name="image" />
                         </div>
                     </div>
-                    {error.image && <span className='errorMessage'>{error.image}</span>}
+                    {error?.image && <span className='errorMessage'>{error.image}</span>}
                 </div>
                 <button className="btn" type="submit">Sign up </button>
                 <p className="alert">Invalid Credentials..!!</p>
                 <div className='toggleAuth'>
                     <span>Already have an Account?
-                        <Link to='/chat/login'>Login</Link>
+                        <Link to='/user/login'>Login</Link>
                     </span></div>
             </form>
         </div>

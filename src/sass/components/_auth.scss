@@ -120,7 +120,7 @@
     border-radius: 100px 100px 100px 100px / 126px 126px 96px 96px;
     width: 250px;
     height: 282px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 10px $colorShadow;
 }
 
 .hand {
@@ -225,16 +225,7 @@
     }
 }
 
-.login .foot {
-    top: 360px;
-    left: -80px;
-
-    &.rgt {
-        left: auto;
-    }
-}
-
-.register .foot {
+.foot {
     bottom: -50px;
     left: 16px;
 
@@ -249,11 +240,10 @@ form {
     max-width: 400px;
     padding: 20px 40px;
     background: #fff;
-    // height: 300px;
     margin: auto;
     text-align: center;
     display: block;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 15px $colorShadow;
     transition: 0.3s;
     position: relative;
     transform: translateY(-100px);
@@ -268,6 +258,10 @@ form {
         margin-bottom: 30px;
         font-family: 'Dancing Script', cursive;
     }
+}
+
+.login form {
+    min-height: 380px;
 }
 
 .btn {
@@ -364,7 +358,7 @@ form {
         flex-direction: column;
 
         label {
-            background-color: rgba(169, 169, 169, 0.384);
+            background-color: $lightGray;
             padding: 6px 15px;
             margin-left:
                 10px;

@@ -1,10 +1,11 @@
 import { useRoutes } from 'react-router-dom';
-import Login from './components/Login';
-import Registration from './components/Registration';
+import Login from './pages/Login.jsx';
+import Messenger from './pages/Messenger';
+import Registration from './pages/Registration';
 export default function Router() {
     return useRoutes([
         {
-            path: 'chat',
+            path: 'user',
             // element: '',
             children: [
                 {
@@ -14,6 +15,11 @@ export default function Router() {
                     path: 'login', element: <Login />
                 },
             ]
+        },
+        {
+            path: '/',
+            element: <Messenger />,
+            children: []
         },
 
     ])
